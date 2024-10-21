@@ -17,15 +17,23 @@ api.interceptors.request.use((config) => {
 
 export const login = async (email, password) => {
   try {
-    const response = await api.post('/users/login', { email, password });
-    return response;
+    const response = await axios.post(`${API_URL}/users/login`, { email, password });
+    return response.data;
   } catch (error) {
     console.error('Error en la solicitud de login:', error);
     throw error;
   }
 };
 
-export const register = (name, email, password) => api.post('/users/register', { name, email, password });
+export const register = async (userData) => {
+  try {
+    const response = await axios.post(`${API_URL}/users/register`, userData);
+    return response.data;
+  } catch (error) {
+    throw error.response.data;
+  }
+};
+
 export const getProfile = () => api.get('/users/profile');
 
 export const getAllProducts = () => api.get('/products');

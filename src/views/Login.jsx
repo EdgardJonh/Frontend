@@ -12,14 +12,13 @@ function Login() {
     e.preventDefault();
     setError('');
     try {
-      const response = await login(email, password);
-      localStorage.setItem('token', response.data.token);
-      localStorage.setItem('user', JSON.stringify(response.data.user));
+      const data = await login(email, password);
+      // Manejar el inicio de sesión exitoso (por ejemplo, guardar el token, redirigir, etc.)
+      console.log('Login exitoso:', data);
       // Redirige según el rol del usuario
-      navigate(response.data.user.role === 'admin' ? '/add-product' : '/');
+      navigate(data.user.role === 'admin' ? '/add-product' : '/');
     } catch (error) {
-      console.error('Error de login:', error);
-      setError('Error al iniciar sesión. Verifica tus credenciales.');
+      setError(error.response?.data?.message || 'Error al iniciar sesión');
     }
   };
 
